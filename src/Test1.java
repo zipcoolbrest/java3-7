@@ -12,17 +12,17 @@ public class Test1 {
         System.out.println("Test1 - Goodbye world!");
     }
 
-    //@Test
+    @Test
     public void task1(){
         System.out.println("Test1 - task 1 done!" + " priority: def");
     }
 
-    @Test (priority = 3)
+    //@Test (priority = Priority.L3)
     public void task2(){
         System.out.println("Test1 - task 2 done!" + " priority: 3");
     }
 
-    @Test (priority = 9)
+    @Test (priority = Priority.L9)
     public void task3(){
         System.out.println("Test1 - task 3 done!" + " priority: 9");
     }

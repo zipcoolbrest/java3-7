@@ -63,7 +63,7 @@ public class MainTest {
                     prioryList.put(m, 0);
                     break;
                 case "Test":
-                    prioryList.put(m, m.getAnnotation(Test.class).priority());
+                    prioryList.put(m, m.getAnnotation(Test.class).priority().getPrio());
                     break;
             }
         }
