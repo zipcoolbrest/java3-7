@@ -1,6 +1,6 @@
 public class Test1 {
 
-    // @AfterSuite  @BeforeSuite
+    // @AfterSuite / @BeforeSuite / без аннотации
 
     @BeforeSuite
     public void greetingsWorld() {
@@ -12,7 +12,7 @@ public class Test1 {
         System.out.println("Test1 - Goodbye world!");
     }
 
-    @Test
+    //@Test
     public void task1(){
         System.out.println("Test1 - task 1 done!" + " priority: def");
     }

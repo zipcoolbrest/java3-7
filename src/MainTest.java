@@ -37,34 +37,39 @@ public class MainTest {
 
         for(Method m: methods){
 
-            //проверяем на наличие уникальности аннотации:
-            //@BeforeSuite
-            if (m.getAnnotation(BeforeSuite.class) != null){
-                ++beforeSuite;
-                if (beforeSuite > 1){
-                    throw new RuntimeException("Можно использовать только одну аннотацю @BeforeSuite");
-                }
+            //проверяем на существование аннотации
+            String anno;
+            try {
+                anno = m.getDeclaredAnnotations()[0].annotationType().getSimpleName();
+            }catch (NullPointerException | IndexOutOfBoundsException e){
+                continue;
             }
 
-            //@AfterSuite
-            if (m.getAnnotation(AfterSuite.class) != null ){
-                ++afterSuite;
-                if (afterSuite > 1){
-                    throw new RuntimeException("Можно использовать только одну аннотацю @AfterSuite");
-                }
-            }
-
-            //заполняем хэщмап
-            if (m.getAnnotation(BeforeSuite.class) != null) {
-                prioryList.put(m, 11);
-            }else if (m.getAnnotation(AfterSuite.class) != null) {
-                prioryList.put(m, 0);
-            }else {
-                prioryList.put(m, m.getAnnotation(Test.class).priority());
+            //заполняем хэшмап и
+            //проверяем на наличие уникальности аннотации
+            switch (anno){
+                case "BeforeSuite":
+                    ++beforeSuite;
+                    if (beforeSuite > 1){
+                        throw new RuntimeException("Можно использовать только одну аннотацю @BeforeSuite");
+                    }
+                    prioryList.put(m, 11);
+                    break;
+                case"AfterSuite":
+                    ++afterSuite;
+                    if (afterSuite > 1){
+                        throw new RuntimeException("Можно использовать только одну аннотацю @AfterSuite");
+                    }
+                    prioryList.put(m, 0);
+                    break;
+                case "Test":
+                    prioryList.put(m, m.getAnnotation(Test.class).priority());
+                    break;
             }
         }
 
         //выполнение методов класса-тестировщика с учетом приоритета 11 --> 0
+        //не вижу смысла писать длинный метод для сортировки, если он сделает тоже самое.
         for (Integer i = 11; i >= 0; i--) {
             for (Map.Entry<Method, Integer> item : prioryList.entrySet()) {
                 try {
